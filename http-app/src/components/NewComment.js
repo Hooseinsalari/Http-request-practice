@@ -1,20 +1,44 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 
 // style
 import styles from "./NewComment.module.css"
 
 const NewComment = () => {
+    const [comment, setComment] = useState({
+        name: "",
+        email: "",
+        content: ""
+    });
+
+    const changeHandler = (event) => {
+        console.log(event.target.name, event.target.value)
+        setComment({...comment, [event.target.name]: event.target.value})
+    }
+
+    const postHandler = (event) => {
+        event.preventDefault()
+        axios.post("https://jsonplaceholder.typicode.com/comments",{
+            ...comment,
+            postId:10
+        })
+        .then((response) => console.log(response.data))
+        .catch((error) => console.log(error))
+    }
+
     return (
-        <div className={styles.container}>
+        <form className={styles.container}>
             <label>name</label>
-            <input />
+            <input name="name" type="text" value={comment.name} onChange={changeHandler} />
             <br />
             <label>email</label>
-            <input />
+            <input name="email" type="text" value={comment.email} onChange={changeHandler} />
             <br/>
             <label>body</label>
-            <input />
-        </div>
+            <textarea name="content" type="textarea" value={comment.content} onChange={changeHandler} />
+            <br />
+            <button onClick={postHandler}>post data</button>
+        </form>
     );
 };
 

@@ -9,27 +9,44 @@ import NewComment from "./NewComment";
 import axios from "axios";
 
 const Discussion = () => {
-  const [comment, setComment] = useState(null)
-
+  const [comment, setComment] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
   useEffect(() => {
-    axios.get("https://jsonplaceholder.typicode.com/comments")
-      .then((response) => setComment(response.data.slice(0,3)))
-      .catch((error) => console.log(error))
-  },[])
+    const getComments = async () => {
+      try {
+        const { data } = await axios.get(
+          "https://jsonplaceholder.typicode.com/comments"
+        );
+        setComment(data.slice(0, 3));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getComments();
+  }, []);
+
+  const selectHandler = (id) => {
+    setSelectedId(id)
+  }
 
   return (
     <div>
       <section className="comment">
-        {
-          comment ? comment.map((data) => <Comment key={data.id} name={data.name} email={data.email} />)
-            : <h3>Loading ...</h3>
-        }
-        {
-          
-        }
+        {comment ? (
+          comment.map((data) => (
+            <Comment
+              key={data.id}
+              name={data.name}
+              email={data.email}
+              onClick={() => selectHandler(data.id)}
+            />
+          ))
+        ) : (
+          <h3>Loading ...</h3>
+        )}
       </section>
       <section className="fullComment">
-        <FullComment />
+        <FullComment commentId={selectedId} />
       </section>
       <section className="newComment">
         <NewComment />
