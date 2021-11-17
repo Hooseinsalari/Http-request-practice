@@ -1,0 +1,24 @@
+.App {
+  text-align: center;
+}
+
+.comment {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 20px;
+}
+
+.fullComment {
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+
+.newComment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
