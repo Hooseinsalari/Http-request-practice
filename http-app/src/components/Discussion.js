@@ -5,8 +5,8 @@ import Comment from "./Comment";
 import FullComment from "./FullComment";
 import NewComment from "./NewComment";
 
-// axios
-import axios from "axios";
+// http
+import http from "./services/HttpService";
 
 const Discussion = () => {
   const [comments, setComments] = useState(null);
@@ -16,8 +16,8 @@ const Discussion = () => {
   useEffect(() => {
     const getComments = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:3001/comments"
+        const { data } = await http.get(
+          "/comments"
         );
         setComments(data);
       } catch (error) {

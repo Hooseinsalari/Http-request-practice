@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+
+// http
+import http from './services/HttpService';
 
 // style
 import styles from "./NewComment.module.css"
@@ -17,11 +19,11 @@ const NewComment = ({setComments}) => {
     }
 
     const postHandler = () => {
-        axios.post("http://localhost:3001/comments",{
+        http.post("/comments",{
             ...comment,
             postId:10
         })
-        .then((response) => axios.get("http://localhost:3001/comments"))
+        .then((response) => http.get("/comments"))
         .then((response) => setComments(response.data))
         .catch((error) => console.log(error))
         
