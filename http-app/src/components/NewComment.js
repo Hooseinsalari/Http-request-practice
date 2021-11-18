@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 // style
 import styles from "./NewComment.module.css"
 
-const NewComment = ({onAddPost}) => {
+const NewComment = ({setComments}) => {
     const [comment, setComment] = useState({
         name: "",
         email: "",
@@ -15,7 +16,16 @@ const NewComment = ({onAddPost}) => {
         setComment({...comment, [event.target.name]: event.target.value})
     }
 
-    
+    const postHandler = () => {
+        axios.post("http://localhost:3001/comments",{
+            ...comment,
+            postId:10
+        })
+        .then((response) => axios.get("http://localhost:3001/comments"))
+        .then((response) => setComments(response.data))
+        .catch((error) => console.log(error))
+        
+    }
 
     return (
         <form className={styles.container}>
@@ -28,7 +38,7 @@ const NewComment = ({onAddPost}) => {
             <label>body</label>
             <textarea name="content" type="textarea" value={comment.content} onChange={changeHandler} />
             <br />
-            <button onClick={() => onAddPost(comment)}>post data</button>
+            <button onClick={postHandler}>post data</button>
         </form>
     );
 };

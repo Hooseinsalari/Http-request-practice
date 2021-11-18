@@ -18,7 +18,7 @@ const FullComment = ({ commentId }) => {
 
   const deleteHandler = () => {
     axios.delete(`http://localhost:3001/comments/${commentId}`)
-    .then((response) => console.log(response.data))
+    .then((response) => setComment(response.data))
   }
   
   useEffect(() => {

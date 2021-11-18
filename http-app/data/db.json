@@ -34,13 +34,6 @@
       "content": "aa",
       "postId": 10,
       "id": 5
-    },
-    {
-      "name": "azar",
-      "email": "azar@new.com",
-      "content": "i am new here",
-      "postId": 10,
-      "id": 6
     }
   ]
 }
