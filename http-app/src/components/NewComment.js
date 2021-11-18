@@ -28,7 +28,7 @@ const NewComment = ({setComments}) => {
     }
 
     return (
-        <form className={styles.container}>
+        <form autoComplete="off" className={styles.container}>
             <label>name</label>
             <input name="name" type="text" value={comment.name} onChange={changeHandler} />
             <br />

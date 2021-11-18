@@ -9,15 +9,17 @@ import NewComment from "./NewComment";
 import axios from "axios";
 
 const Discussion = () => {
-  const [comment, setComment] = useState(null);
+  const [comments, setComments] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
+  const [error] = useState(false)
+
   useEffect(() => {
     const getComments = async () => {
       try {
         const { data } = await axios.get(
           "http://localhost:3001/comments"
         );
-        setComment(data);
+        setComments(data);
       } catch (error) {
         console.log(error);
       }
@@ -29,28 +31,36 @@ const Discussion = () => {
     setSelectedId(id)
   }
 
+  const renderComment = () => {
+
+    let renderedValue = <h1>Loading ...</h1>;
+    if (error) renderedValue = <h1>fetching data failed!</h1>;
+    
+    if(comments && !error) {
+        renderedValue = comments.map((data) => 
+        <Comment
+          key={data.id}
+          name={data.name}
+          email={data.email}
+          onClick={() => selectHandler(data.id)}
+        />
+        )
+    }
+
+    return renderedValue;
+  }
+
 
   return (
     <div>
       <section className="comment">
-        {comment ? (
-          comment.map((data) => (
-            <Comment
-              key={data.id}
-              name={data.name}
-              email={data.email}
-              onClick={() => selectHandler(data.id)}
-            />
-          ))
-        ) : (
-          <h3>Loading ...</h3>
-        )}
+        {renderComment()}
       </section>
       <section className="fullComment">
-        <FullComment commentId={selectedId} />
+        <FullComment commentId={selectedId} setCommentId={setSelectedId} setComments={setComments} />
       </section>
-      <section className="newComment">
-        <NewComment setComments={setComment} />
+      <section className="newComment"> 
+        <NewComment setComments={setComments} />
       </section>
     </div>
   );

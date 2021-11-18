@@ -5,7 +5,7 @@ import styles from "./FullComment.module.css";
 
 // axios
 import axios from "axios";
-const FullComment = ({ commentId }) => {
+const FullComment = ({ commentId, setCommentId, setComments }) => {
   const [comment, setComment] = useState([]);
 
   
@@ -16,9 +16,20 @@ const FullComment = ({ commentId }) => {
     margin: "15px",
   };
 
-  const deleteHandler = () => {
-    axios.delete(`http://localhost:3001/comments/${commentId}`)
-    .then((response) => setComment(response.data))
+  // const deleteHandler = () => {
+  //   axios.delete(`http://localhost:3001/comments/${commentId}`)
+  //   .then((response) => setComments(response.data))
+  // }  //raveshe dige paiin
+
+  const deleteHandler = async () => {
+    try {
+      await axios.delete(`http://localhost:3001/comments/${commentId}`)
+      const {data} = await axios.get("http://localhost:3001/comments")
+      setCommentId(null)
+      setComments(data)
+    } catch (error) {
+      console.log(error)
+    }
   }
   
   useEffect(() => {
