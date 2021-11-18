@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 // http
-import http from './services/HttpService';
+import { postAllComments } from '../services/addNewCommentsService';
+import { getAllComments } from '../services/getAllCommentsService';
 
 // style
 import styles from "./NewComment.module.css"
@@ -19,11 +20,8 @@ const NewComment = ({setComments}) => {
     }
 
     const postHandler = () => {
-        http.post("/comments",{
-            ...comment,
-            postId:10
-        })
-        .then((response) => http.get("/comments"))
+        postAllComments({...comment,postId:10})
+        .then((response) => getAllComments)
         .then((response) => setComments(response.data))
         .catch((error) => console.log(error))
         

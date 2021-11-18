@@ -6,7 +6,7 @@ import FullComment from "./FullComment";
 import NewComment from "./NewComment";
 
 // http
-import http from "./services/HttpService";
+import { getAllComments } from "../services/getAllCommentsService";
 
 const Discussion = () => {
   const [comments, setComments] = useState(null);
@@ -16,9 +16,7 @@ const Discussion = () => {
   useEffect(() => {
     const getComments = async () => {
       try {
-        const { data } = await http.get(
-          "/comments"
-        );
+        const { data } = await getAllComments();
         setComments(data);
       } catch (error) {
         console.log(error);
