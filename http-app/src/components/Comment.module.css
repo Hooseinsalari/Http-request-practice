@@ -6,4 +6,6 @@
     background-color: #6efdfd;
     width: 300px;
     height: 200px;
+    flex-wrap: wrap;
+    margin: 20px;
 }

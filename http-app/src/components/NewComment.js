@@ -1,10 +1,9 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 
 // style
 import styles from "./NewComment.module.css"
 
-const NewComment = () => {
+const NewComment = ({onAddPost}) => {
     const [comment, setComment] = useState({
         name: "",
         email: "",
@@ -12,19 +11,11 @@ const NewComment = () => {
     });
 
     const changeHandler = (event) => {
-        console.log(event.target.name, event.target.value)
+        // console.log(event.target.name, event.target.value)
         setComment({...comment, [event.target.name]: event.target.value})
     }
 
-    const postHandler = (event) => {
-        event.preventDefault()
-        axios.post("https://jsonplaceholder.typicode.com/comments",{
-            ...comment,
-            postId:10
-        })
-        .then((response) => console.log(response.data))
-        .catch((error) => console.log(error))
-    }
+    
 
     return (
         <form className={styles.container}>
@@ -37,7 +28,7 @@ const NewComment = () => {
             <label>body</label>
             <textarea name="content" type="textarea" value={comment.content} onChange={changeHandler} />
             <br />
-            <button onClick={postHandler}>post data</button>
+            <button onClick={() => onAddPost(comment)}>post data</button>
         </form>
     );
 };

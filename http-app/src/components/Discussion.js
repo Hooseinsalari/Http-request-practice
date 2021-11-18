@@ -15,9 +15,9 @@ const Discussion = () => {
     const getComments = async () => {
       try {
         const { data } = await axios.get(
-          "https://jsonplaceholder.typicode.com/comments"
+          "http://localhost:3001/comments"
         );
-        setComment(data.slice(0, 3));
+        setComment(data);
       } catch (error) {
         console.log(error);
       }
@@ -28,6 +28,17 @@ const Discussion = () => {
   const selectHandler = (id) => {
     setSelectedId(id)
   }
+
+  const postHandler = (comment) => {
+    axios.post("http://localhost:3001/comments",{
+        ...comment,
+        postId:10
+    })
+    .then((response) => axios.get("http://localhost:3001/comments"))
+    .then((response) => setComment(response.data))
+    .catch((error) => console.log(error))
+    
+}
 
   return (
     <div>
@@ -49,7 +60,7 @@ const Discussion = () => {
         <FullComment commentId={selectedId} />
       </section>
       <section className="newComment">
-        <NewComment />
+        <NewComment onAddPost={postHandler} />
       </section>
     </div>
   );
